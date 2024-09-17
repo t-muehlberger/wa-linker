@@ -16,9 +16,6 @@
             "outputPath": "dist/walinker",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -27,6 +24,7 @@
               }
             ],
             "styles": [
+              "node_modules/@picocss/pico/css/pico.classless.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -73,11 +71,6 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
                 "glob": "**/*",
@@ -85,6 +78,7 @@
               }
             ],
             "styles": [
+              "node_modules/@picocss/pico/css/pico.classless.css",
               "src/styles.css"
             ],
             "scripts": []
