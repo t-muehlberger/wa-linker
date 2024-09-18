@@ -1,18 +1,17 @@
 import {
   Component,
   ElementRef,
-  HostBinding,
-  input,
   OnInit,
   signal,
   ViewChild,
 } from '@angular/core';
 import parsePhoneNumber from 'libphonenumber-js';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [],
+  imports: [QRCodeModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

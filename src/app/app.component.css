@@ -17,8 +17,19 @@ main {
   max-width: 650px;
 }
 
+.wa-link-row {
+  text-align: center;
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
 .wa-button-row {
   text-align: center;
+}
+
+.qr-code-row {
+  display: flex;
+  justify-content: center;
 }
 
 .wa-button-disabled {

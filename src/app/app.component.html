@@ -32,5 +32,22 @@
       />
       }
     </div>
+    <div class="wa-link-row">
+      @if (numberValid() && whatsappLink()) {
+      <small>
+        <a [href]="whatsappLink()">{{ whatsappLink() }}</a>
+      </small>
+      }
+    </div>
+    <div class="qr-code-row">
+      @if (numberValid() && whatsappLink()) {
+      <qrcode
+        [qrdata]="whatsappLink() || ''"
+        [width]="150"
+        alt="WhatsApp Link as QR Code"
+        [margin]="1"
+      ></qrcode>
+      }
+    </div>
   </article>
 </main>
