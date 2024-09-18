@@ -43,7 +43,7 @@
       @if (numberValid() && whatsappLink()) {
       <qrcode
         [qrdata]="whatsappLink() || ''"
-        [width]="150"
+        [width]="128"
         alt="WhatsApp Link as QR Code"
         [margin]="1"
       ></qrcode>
