@@ -1,25 +1,36 @@
+<header>
+  <button class="theme-switch secondary outline" (click)="toggleTheme()">
+    Light / Dark
+  </button>
+</header>
 <main>
   <article class="main-card">
-    <input #number
+    <input
+      #number
       type="tel"
       placeholder="Phone Number"
       aria-label="Tel"
       autocomplete="tel"
       [attr.aria-invalid]="numberValid() !== undefined ? !numberValid() : null"
-      (input)="numberChange()">
+      (input)="numberChange()"
+    />
     <div class="wa-button-row">
       @if (numberValid()) {
-        <a
-          aria-label="Chat on WhatsApp"
-          [href]="whatsappLink()"
-          class="wa-button"
-          target="_blank">
-          <img alt="Chat on WhatsApp" src="/img/WhatsAppButtonGreenMedium.svg" />
-        </a>
+      <a
+        aria-label="Chat on WhatsApp"
+        [href]="whatsappLink()"
+        class="wa-button"
+        target="_blank"
+      >
+        <img alt="Chat on WhatsApp" src="/img/WhatsAppButtonGreenMedium.svg" />
+      </a>
       } @else {
-        <img alt="Chat on WhatsApp Button Disabled" src="/img/WhatsAppButtonGreenMedium.svg" class="wa-button-disabled"/>
+      <img
+        alt="Chat on WhatsApp Button Disabled"
+        src="/img/WhatsAppButtonGreenMedium.svg"
+        class="wa-button-disabled"
+      />
       }
-
     </div>
   </article>
 </main>

@@ -24,7 +24,7 @@
               }
             ],
             "styles": [
-              "node_modules/@picocss/pico/css/pico.classless.css",
+              "node_modules/@picocss/pico/css/pico.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -79,7 +79,7 @@
               }
             ],
             "styles": [
-              "node_modules/@picocss/pico/css/pico.classless.css",
+              "node_modules/@picocss/pico/css/pico.css",
               "src/styles.css"
             ],
             "scripts": []
