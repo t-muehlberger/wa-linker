@@ -1,10 +1,14 @@
 <header>
-  <button class="theme-switch secondary outline" (click)="toggleTheme()">
+  <button
+    class="theme-switch secondary outline btn-small"
+    (click)="toggleTheme()"
+  >
     Light / Dark
   </button>
 </header>
 <main>
   <article class="main-card">
+    <p>Enter phone number to contact</p>
     <input
       #number
       type="tel"
@@ -32,7 +36,7 @@
       />
       }
     </div>
-    <div class="wa-link-row">
+    <div class="wa-link-row space-below">
       @if (numberValid() && whatsappLink()) {
       <small>
         <a [href]="whatsappLink()">{{ whatsappLink() }}</a>
@@ -51,3 +55,9 @@
     </div>
   </article>
 </main>
+<footer>
+  <small>
+    Built by
+    <a href="https://muehlberger.dev" target="_blank">Tobias Mühlberger</a>
+  </small>
+</footer>

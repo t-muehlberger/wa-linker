@@ -1,6 +1,8 @@
-# WALinker
+# WA-Linker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.4.
+[WA-Linker](https://wa-linker.pages.dev) is simple tool I made, that lets me instantly open a WhatsApp chat with any phone number (provided they use WhatsApp) without having to save the number in my contacts first.
+
+![Screenshot of WA-Linker](./doc/screenshots/screenshot.png)
 
 ## Development server
 

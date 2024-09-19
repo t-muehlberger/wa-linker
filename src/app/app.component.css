@@ -1,26 +1,25 @@
+:host {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
 header {
   display: flex;
   justify-content: end;
-  margin: 16px;
 }
 
 main {
+  flex-grow: 1;
   display: flex;
   justify-content: center;
-}
-
-.theme-switch {
-  padding: 4px 12px;
-}
-
-.main-card {
-  max-width: 650px;
+  align-items: center;
 }
 
 .wa-link-row {
   text-align: center;
   margin-top: 4px;
-  margin-bottom: 20px;
 }
 
 .wa-button-row {
