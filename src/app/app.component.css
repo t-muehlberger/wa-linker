@@ -17,6 +17,13 @@ main {
   align-items: center;
 }
 
+footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .wa-link-row {
   text-align: center;
   margin-top: 4px;

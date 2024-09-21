@@ -8,7 +8,7 @@
 </header>
 <main>
   <article class="main-card">
-    <p>Enter phone number to contact</p>
+    <p>Enter phone number</p>
     <input
       #number
       type="tel"
@@ -36,7 +36,7 @@
       />
       }
     </div>
-    <div class="wa-link-row space-below">
+    <div class="wa-link-row">
       @if (numberValid() && whatsappLink()) {
       <small>
         <a [href]="whatsappLink()">{{ whatsappLink() }}</a>
@@ -50,6 +50,7 @@
         [width]="128"
         alt="WhatsApp Link as QR Code"
         [margin]="1"
+        class="space-above"
       ></qrcode>
       }
     </div>
@@ -59,5 +60,10 @@
   <small>
     Built by
     <a href="https://muehlberger.dev" target="_blank">Tobias Mühlberger</a>
+  </small>
+  <small>
+    <a href="https://github.com/t-muehlberger/wa-linker" target="_blank">
+      GitHub
+    </a>
   </small>
 </footer>
