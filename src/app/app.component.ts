@@ -10,7 +10,7 @@ import parsePhoneNumber, {
   getCountries,
   getCountryCallingCode,
 } from 'libphonenumber-js';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
 
 interface CountryOption {
   code: CountryCode;
@@ -18,11 +18,10 @@ interface CountryOption {
 }
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [QRCodeModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+    selector: 'app-root',
+    imports: [QRCodeComponent],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
   private readonly countryStorageKey = 'wa-linker-country';
