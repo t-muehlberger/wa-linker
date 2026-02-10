@@ -25,7 +25,7 @@ interface CountryOption {
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
-  private readonly countryStorageKey = 'country';
+  private readonly countryStorageKey = 'wa-linker-country';
   private readonly fallbackCountry: CountryCode = 'AT';
   selectedCountry = signal<CountryCode>(this.fallbackCountry);
   countries: CountryOption[];
@@ -59,7 +59,9 @@ export class AppComponent implements OnInit {
       this.setDocumentTheme(theme);
     }
 
-    const country = localStorage.getItem(this.countryStorageKey);
+    // Detect country from browser locale as a best-effort default (e.g. "de-AT" → "AT")
+    const country = localStorage.getItem(this.countryStorageKey)
+      ?? new Intl.Locale(navigator.language).region;
     if (country && getCountries().includes(country as CountryCode)) {
       this.selectedCountry.set(country as CountryCode);
     }
