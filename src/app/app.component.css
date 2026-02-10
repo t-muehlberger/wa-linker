@@ -24,6 +24,11 @@ footer {
   align-items: center;
 }
 
+.main-card {
+  max-width: 400px;
+  width: 100%;
+}
+
 .wa-link-row {
   text-align: center;
   margin-top: 4px;

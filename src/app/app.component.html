@@ -9,6 +9,13 @@
 <main>
   <article class="main-card">
     <p>Enter phone number</p>
+    <select [value]="selectedCountry()" (change)="countryChange($event)" aria-label="Country">
+      @for (country of countries; track country.code) {
+        <option [value]="country.code" [selected]="country.code === selectedCountry()">
+          {{ country.label }}
+        </option>
+      }
+    </select>
     <input
       #number
       type="tel"

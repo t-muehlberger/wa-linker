@@ -5,8 +5,17 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import parsePhoneNumber from 'libphonenumber-js';
+import parsePhoneNumber, {
+  CountryCode,
+  getCountries,
+  getCountryCallingCode,
+} from 'libphonenumber-js';
 import { QRCodeModule } from 'angularx-qrcode';
+
+interface CountryOption {
+  code: CountryCode;
+  label: string;
+}
 
 @Component({
   selector: 'app-root',
@@ -16,7 +25,10 @@ import { QRCodeModule } from 'angularx-qrcode';
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
-  private readonly defaultCountry = 'AT';
+  private readonly countryStorageKey = 'country';
+  private readonly fallbackCountry: CountryCode = 'AT';
+  selectedCountry = signal<CountryCode>(this.fallbackCountry);
+  countries: CountryOption[];
 
   numberValid = signal<boolean | undefined>(undefined);
 
@@ -30,11 +42,26 @@ export class AppComponent implements OnInit {
   @ViewChild('number')
   numberInput?: ElementRef<HTMLInputElement>;
 
+  constructor() {
+    const displayNames = new Intl.DisplayNames([...navigator.languages, 'en'], { type: 'region' });
+    this.countries = getCountries()
+      .map((code) => ({
+        code,
+        label: `${displayNames.of(code) ?? code} (+${getCountryCallingCode(code)})`,
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+  }
+
   ngOnInit(): void {
     const theme = localStorage.getItem(this.themeStorageKey);
     if (theme === 'light' || theme === 'dark') {
       this.theme = theme;
       this.setDocumentTheme(theme);
+    }
+
+    const country = localStorage.getItem(this.countryStorageKey);
+    if (country && getCountries().includes(country as CountryCode)) {
+      this.selectedCountry.set(country as CountryCode);
     }
   }
 
@@ -45,13 +72,18 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    const phoneNumber = parsePhoneNumber(inputValue, this.defaultCountry);
+    const phoneNumber = parsePhoneNumber(inputValue, this.selectedCountry());
 
     console.log(phoneNumber);
 
     if (!phoneNumber || !phoneNumber.isValid()) {
       this.numberValid.set(false);
       return;
+    }
+
+    if (phoneNumber.country && phoneNumber.country !== this.selectedCountry()) {
+      this.selectedCountry.set(phoneNumber.country);
+      localStorage.setItem(this.countryStorageKey, phoneNumber.country);
     }
 
     let numberStr = phoneNumber.formatInternational();
@@ -62,6 +94,13 @@ export class AppComponent implements OnInit {
 
     this.whatsappLink.set(`https://wa.me/${numberStr}`);
     this.numberValid.set(true);
+  }
+
+  countryChange(event: Event) {
+    const code = (event.target as HTMLSelectElement).value as CountryCode;
+    this.selectedCountry.set(code);
+    localStorage.setItem(this.countryStorageKey, code);
+    this.numberChange();
   }
 
   toggleTheme() {
