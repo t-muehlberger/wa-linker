@@ -13,6 +13,7 @@ header {
 main {
   flex-grow: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -45,4 +46,10 @@ footer {
 
 .wa-button-disabled {
   filter: grayscale(0.65)
+}
+
+.handler-card {
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
 }

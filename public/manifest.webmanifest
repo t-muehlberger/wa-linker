@@ -6,6 +6,12 @@
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
+  "protocol_handlers": [
+    {
+      "protocol": "tel",
+      "url": "/?tel=%s"
+    }
+  ],
   "icons": [
     {
       "src": "/icons/web-app-manifest-192x192.png",

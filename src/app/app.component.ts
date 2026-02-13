@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   OnInit,
@@ -23,7 +24,7 @@ interface CountryOption {
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   private readonly countryStorageKey = 'wa-linker-country';
   private readonly fallbackCountry: CountryCode = 'AT';
   selectedCountry = signal<CountryCode>(this.fallbackCountry);
@@ -34,6 +35,15 @@ export class AppComponent implements OnInit {
   formattedNumber = signal<string | undefined>(undefined);
 
   whatsappLink = signal<string | undefined>(undefined);
+
+  private readonly handlerRegisteredKey = 'wa-linker-tel-handler-registered';
+  canRegisterProtocol = signal<boolean>(
+    typeof navigator !== 'undefined' && 'registerProtocolHandler' in navigator
+  );
+  protocolHandlerRegistered = signal<boolean>(
+    typeof localStorage !== 'undefined' &&
+    localStorage.getItem('wa-linker-tel-handler-registered') === 'true'
+  );
 
   private readonly themeStorageKey = 'theme';
   private theme: 'light' | 'dark' | null = null;
@@ -49,6 +59,10 @@ export class AppComponent implements OnInit {
         label: `${displayNames.of(code) ?? code} (+${getCountryCallingCode(code)})`,
       }))
       .sort((a, b) => a.label.localeCompare(b.label));
+  }
+
+  ngAfterViewInit(): void {
+    this.handleIncomingTelProtocol();
   }
 
   ngOnInit(): void {
@@ -123,6 +137,44 @@ export class AppComponent implements OnInit {
     }
     this.setDocumentTheme(this.theme);
     localStorage.setItem(this.themeStorageKey, this.theme);
+  }
+
+  registerAsHandler(): void {
+    try {
+      navigator.registerProtocolHandler(
+        'tel',
+        `${window.location.origin}/?tel=%s`
+      );
+      this.protocolHandlerRegistered.set(true);
+      localStorage.setItem(this.handlerRegisteredKey, 'true');
+    } catch (e) {
+      console.error('Failed to register protocol handler:', e);
+    }
+  }
+
+  private handleIncomingTelProtocol(): void {
+    const params = new URLSearchParams(window.location.search);
+    const telParam = params.get('tel');
+    if (!telParam) return;
+
+    // Strip "tel:" scheme prefix if present (browser passes full URI)
+    let phoneNumber = telParam;
+    if (phoneNumber.toLowerCase().startsWith('tel:')) {
+      phoneNumber = phoneNumber.substring(4);
+    }
+
+    // Decode any remaining URL encoding (e.g. %2B → +)
+    phoneNumber = decodeURIComponent(phoneNumber);
+
+    // Validate the phone number before accepting it
+    const parsed = parsePhoneNumber(phoneNumber, this.selectedCountry());
+    if (parsed?.isValid() && phoneNumber && this.numberInput?.nativeElement) {
+      this.numberInput.nativeElement.value = phoneNumber;
+      this.numberChange();
+    }
+
+    // Clean up the URL bar
+    history.replaceState({}, '', window.location.pathname);
   }
 
   private setDocumentTheme(theme: 'light' | 'dark' | null) {

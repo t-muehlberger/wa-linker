@@ -8,7 +8,7 @@
 </header>
 <main>
   <article class="main-card">
-    <p>Enter phone number</p>
+    <p>Phone number</p>
     <select [value]="selectedCountry()" (change)="countryChange($event)" aria-label="Country">
       @for (country of countries; track country.code) {
         <option [value]="country.code" [selected]="country.code === selectedCountry()">
@@ -16,7 +16,9 @@
         </option>
       }
     </select>
-    <small>Optional – used when no country code is entered</small>
+    <small>
+      Only used if you don't include a country code (for example "+43").
+    </small>
     <input
       #number
       type="tel"
@@ -63,6 +65,20 @@
       }
     </div>
   </article>
+  @if (canRegisterProtocol()) {
+    <article class="handler-card">
+      <p>
+        Make WA-Linker open when you click a phone number on websites, emails,
+        or documents. Your browser may ask you to confirm.
+      </p>
+      <button
+        (click)="registerAsHandler()"
+        [class]="protocolHandlerRegistered() ? 'secondary outline' : 'primary'"
+      >
+        {{ protocolHandlerRegistered() ? 'Re-register phone link handler' : 'Use WA-Linker for phone links' }}
+      </button>
+    </article>
+  }
 </main>
 <footer>
   <small>
